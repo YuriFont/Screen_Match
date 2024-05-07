@@ -13,6 +13,6 @@ public class SreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		System.out.println("Olá Spring");
 	}
 }
