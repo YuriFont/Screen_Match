@@ -1,5 +1,6 @@
 package br.com.yurifont.sreenmatch;
 
+import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ public class SreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Olá Spring");
+		ConsumeAPI consumeAPI = new ConsumeAPI();
+		String json = consumeAPI.getData("");
 	}
 }
