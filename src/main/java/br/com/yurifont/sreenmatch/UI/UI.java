@@ -1,11 +1,14 @@
 package br.com.yurifont.sreenmatch.UI;
 
+import br.com.yurifont.sreenmatch.model.Episode;
 import br.com.yurifont.sreenmatch.model.EpisodesData;
 import br.com.yurifont.sreenmatch.model.SeasonData;
 import br.com.yurifont.sreenmatch.model.SeriesData;
 import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import br.com.yurifont.sreenmatch.service.ConvertData;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,13 +37,35 @@ public class UI {
             seasons.add(seasonData);
         }
 
-        List<EpisodesData> episodes = seasons.stream()
-                .flatMap(s -> s.episodes().stream())
-                .toList();
+//        List<EpisodesData> episodesDatas = seasons.stream()
+//                .flatMap(s -> s.episodes().stream())
+//                .toList();
+//
+//        episodesDatas.stream()
+//                .filter(e -> !e.rating().equalsIgnoreCase("N/A"))
+//                .sorted(Comparator.comparing(EpisodesData::rating).reversed());
+
+        List<Episode> episodes = seasons.stream()
+                .flatMap(s -> s.episodes().stream()
+                    .map(e -> new Episode(s.seasonNumber(), e))
+                ).collect(Collectors.toList());
+        episodes.forEach(System.out::println);
+
+        System.out.println("What year do you want to watch the episodes from?");
+        int year = sc.nextInt();
+        sc.nextLine();
+
+        LocalDate searchDate = LocalDate.of(year, 1, 1);
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         episodes.stream()
-                .filter(e -> !e.rating().equalsIgnoreCase("N/A"))
-                .sorted(Comparator.comparing(EpisodesData::rating).reversed())
-                .forEach(System.out::println);
+                .filter(e -> e.getReleaseDate() != null && e.getReleaseDate().isAfter(searchDate))
+                .forEach(e -> System.out.println(
+                        "Season: " + e.getSeason() +
+                                " Episode: " + e.getEpisodeNumber() +
+                                " Title: " + e.getTitle() +
+                                " Release Date: " + e.getReleaseDate().format(dtf)
+                ));
     }
 }
