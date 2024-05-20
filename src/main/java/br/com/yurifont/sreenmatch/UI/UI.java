@@ -9,10 +9,7 @@ import br.com.yurifont.sreenmatch.service.ConvertData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UI {
@@ -51,21 +48,34 @@ public class UI {
                 ).collect(Collectors.toList());
         episodes.forEach(System.out::println);
 
-        System.out.println("What year do you want to watch the episodes from?");
-        int year = sc.nextInt();
-        sc.nextLine();
+        System.out.print("Enter the excerpt from title want search: ");
+        String excerptTitle = sc.nextLine();
 
-        LocalDate searchDate = LocalDate.of(year, 1, 1);
+        Optional<Episode> findEpisode = episodes.stream()
+                .filter(e -> e.getTitle().toUpperCase().contains(excerptTitle.toUpperCase()))
+                .findFirst();
+        if (findEpisode.isPresent()) {
+            System.out.println(findEpisode.get());
+        } else {
+            System.out.println("Episode not found!!!");
+        }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        episodes.stream()
-                .filter(e -> e.getReleaseDate() != null && e.getReleaseDate().isAfter(searchDate))
-                .forEach(e -> System.out.println(
-                        "Season: " + e.getSeason() +
-                                " Episode: " + e.getEpisodeNumber() +
-                                " Title: " + e.getTitle() +
-                                " Release Date: " + e.getReleaseDate().format(dtf)
-                ));
+//        System.out.println("What year do you want to watch the episodes from?");
+//        int year = sc.nextInt();
+//        sc.nextLine();
+//
+//        LocalDate searchDate = LocalDate.of(year, 1, 1);
+//
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//
+//        episodes.stream()
+//                .filter(e -> e.getReleaseDate() != null && e.getReleaseDate().isAfter(searchDate))
+//                .forEach(e -> System.out.println(
+//                        "Season: " + e.getSeason() +
+//                                " Episode: " + e.getEpisodeNumber() +
+//                                " Title: " + e.getTitle() +
+//                                " Release Date: " + e.getReleaseDate().format(dtf)
+//                ));
     }
 }
