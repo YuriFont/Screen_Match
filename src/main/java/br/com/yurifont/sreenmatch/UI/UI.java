@@ -46,19 +46,18 @@ public class UI {
                 .flatMap(s -> s.episodes().stream()
                     .map(e -> new Episode(s.seasonNumber(), e))
                 ).collect(Collectors.toList());
-        episodes.forEach(System.out::println);
-
-        System.out.print("Enter the excerpt from title want search: ");
-        String excerptTitle = sc.nextLine();
-
-        Optional<Episode> findEpisode = episodes.stream()
-                .filter(e -> e.getTitle().toUpperCase().contains(excerptTitle.toUpperCase()))
-                .findFirst();
-        if (findEpisode.isPresent()) {
-            System.out.println(findEpisode.get());
-        } else {
-            System.out.println("Episode not found!!!");
-        }
+//
+//        System.out.print("Enter the excerpt from title want search: ");
+//        String excerptTitle = sc.nextLine();
+//
+//        Optional<Episode> findEpisode = episodes.stream()
+//                .filter(e -> e.getTitle().toUpperCase().contains(excerptTitle.toUpperCase()))
+//                .findFirst();
+//        if (findEpisode.isPresent()) {
+//            System.out.println(findEpisode.get());
+//        } else {
+//            System.out.println("Episode not found!!!");
+//        }
 
 
 //        System.out.println("What year do you want to watch the episodes from?");
@@ -77,5 +76,10 @@ public class UI {
 //                                " Title: " + e.getTitle() +
 //                                " Release Date: " + e.getReleaseDate().format(dtf)
 //                ));
+        Map<Integer, Double> seasonMap = episodes.stream()
+                .filter(e -> e.getRating() > 0.0)
+                .collect(Collectors.groupingBy(Episode::getSeason,
+                        Collectors.averagingDouble(Episode::getRating)));
+        System.out.println(seasonMap);
     }
 }
