@@ -81,5 +81,13 @@ public class UI {
                 .collect(Collectors.groupingBy(Episode::getSeason,
                         Collectors.averagingDouble(Episode::getRating)));
         System.out.println(seasonMap);
+
+        DoubleSummaryStatistics statistics = episodes.stream()
+                .filter(e -> e.getRating() > 0.0)
+                .collect(Collectors.summarizingDouble(Episode::getRating));
+        System.out.println("Average note: " + statistics.getAverage());
+        System.out.println("Best episode: " + statistics.getMax());
+        System.out.println("Worst episode: " + statistics.getMin());
+        System.out.println("Number of episodes evaluated: " + statistics.getCount());
     }
 }
