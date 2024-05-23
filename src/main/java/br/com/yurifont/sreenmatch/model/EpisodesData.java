@@ -15,7 +15,7 @@ public record EpisodesData(@JsonProperty("Title") String title,
         sb.append("Title: ").append(this.title());
         sb.append(", Number: ").append(this.episodeNumber());
         sb.append(", Rating: ").append(this.rating());
-        sb.append(", Release date: ").append(this.releaseDate()).append("\n");
+        sb.append(", Release date: ").append(this.releaseDate());
         return sb.toString();
     }
 }

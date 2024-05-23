@@ -1,18 +1,13 @@
 package br.com.yurifont.sreenmatch.UI;
 
-import br.com.yurifont.sreenmatch.model.Episode;
-import br.com.yurifont.sreenmatch.model.EpisodesData;
 import br.com.yurifont.sreenmatch.model.SeasonData;
 import br.com.yurifont.sreenmatch.model.SeriesData;
 import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import br.com.yurifont.sreenmatch.service.ConvertData;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.lang.System.exit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class UI {
     private Scanner sc = new Scanner(System.in);
@@ -59,7 +54,7 @@ public class UI {
     }
 
     private SeriesData getDataSeries() {
-        System.out.print("Enter the name of series want search: ");
+        System.out.print("\nEnter the name of series want search: ");
         String series = sc.nextLine();
         String json = consumeAPI.getData(URL + series.replaceAll(" ", "_") + API_KEY);
         return cd.convertData(json, SeriesData.class);
