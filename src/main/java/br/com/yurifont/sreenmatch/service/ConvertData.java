@@ -9,7 +9,7 @@ public class ConvertData implements IConvertData{
 
 
     @Override
-    public <T> T getData(String json, Class<T> _class) {
+    public <T> T convertData(String json, Class<T> _class) {
         try {
             return mapper.readValue(json, _class);
         } catch (JsonProcessingException e) {
