@@ -9,8 +9,8 @@ public record SeriesData(@JsonAlias("Title") String title,
                          String totalSeasons) {
     @Override
     public String toString() {
-        return "Title - " + this.title() + "\n"
+        return "\nTitle - " + this.title() + "\n"
                 + "Rating - " + this.imdbRating() + "\n"
-                + "Total seasons - " + this.totalSeasons() + "\n\n";
+                + "Total seasons - " + this.totalSeasons() + "\n";
     }
 }

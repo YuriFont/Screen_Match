@@ -10,17 +10,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UI {
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
     private final String URL = "http://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=dda2e16f";
-    private final String SEASON = "&season=";
-    private ConsumeAPI consumeAPI = new ConsumeAPI();
-    private ConvertData cd = new ConvertData();
+    private final ConsumeAPI consumeAPI = new ConsumeAPI();
+    private final ConvertData cd = new ConvertData();
+    private List<SeriesData> listSeries = new ArrayList<>();
 
     public void showMenu() {
         String menu = """
-                1 - Search Series
-                2 - Search Episodes
+                1 - Search series
+                2 - Search episodes
+                3 - List search series
                 
                 0 - Exit
                 """;
@@ -39,6 +40,10 @@ public class UI {
                     searchEpisodes();
                     break ;
 
+                case "3":
+                    listSearchSeries();
+                    break ;
+
                 case "0":
                     break ;
 
@@ -50,6 +55,7 @@ public class UI {
 
     private void searchSeries() {
         SeriesData data = this.getDataSeries();
+        listSeries.add(data);
         System.out.println(data);
     }
 
@@ -62,12 +68,18 @@ public class UI {
 
     private void searchEpisodes() {
         SeriesData data = getDataSeries();
+        listSeries.add(data);
         List<SeasonData> dataSeason = new ArrayList<>();
+        String SEASON = "&season=";
 
         for (int i = 1; i <= Integer.parseInt(data.totalSeasons()); i++) {
-            String json = consumeAPI.getData(URL + data.title().replaceAll(" ", "_") + "&season=" + i + API_KEY);
+            String json = consumeAPI.getData(URL + data.title().replaceAll(" ", "_") + SEASON + i + API_KEY);
             dataSeason.add(cd.convertData(json, SeasonData.class));
         }
         dataSeason.forEach(System.out::println);
+    }
+
+    private void listSearchSeries() {
+        listSeries.forEach(System.out::println);
     }
 }
