@@ -1,15 +1,19 @@
 package br.com.yurifont.sreenmatch.model;
 
 public enum Category {
-    ACTION,
-    COMEDY,
-    ROMANCE,
-    DRAMA,
-    CRIME,
-    THRILLER,
-    HORROR;
+    ACTION("Action"),
+    COMEDY("Comedy"),
+    ROMANCE("Romance"),
+    DRAMA("Drama"),
+    CRIME("Crime"),
+    THRILLER("Thriller"),
+    HORROR("Horror");
 
     private String omdbCategory;
+
+    Category(String omdbCategory){
+        this.omdbCategory = omdbCategory;
+    }
 
     public static Category fromString(String text) {
         for (Category category : Category.values()) {

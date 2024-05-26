@@ -1,13 +1,16 @@
 package br.com.yurifont.sreenmatch.UI;
 
 import br.com.yurifont.sreenmatch.model.SeasonData;
+import br.com.yurifont.sreenmatch.model.Serie;
 import br.com.yurifont.sreenmatch.model.SeriesData;
 import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import br.com.yurifont.sreenmatch.service.ConvertData;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class UI {
     private final Scanner sc = new Scanner(System.in);
@@ -80,6 +83,13 @@ public class UI {
     }
 
     private void listSearchSeries() {
-        listSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = listSeries.stream()
+                        .map(l -> new Serie(l))
+                        .collect(Collectors.toList());
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenre))
+                .forEach(System.out::println);
+        System.out.println();
     }
 }
