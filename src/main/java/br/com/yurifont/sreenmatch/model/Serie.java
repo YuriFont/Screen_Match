@@ -1,15 +1,28 @@
 package br.com.yurifont.sreenmatch.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(unique = true)
     private String title;
     private Double imdbRating;
     private String totalSeasons;
+    @Enumerated(EnumType.STRING)
     private Category genre;
     private String actors;
     private String poster;
     private String plot;
+    @Transient
+    private List<Episode> episodes = new ArrayList<>();
 
     public Serie(SeriesData series) {
         this.title = series.title();
@@ -18,9 +31,15 @@ public class Serie {
         this.genre = Category.fromString(series.genre().split(",")[0].trim());
         this.actors = series.actors();
         this.poster = series.poster();
-        this.plot = series.poster();
+        this.plot = series.plot();
+    }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -3,6 +3,7 @@ package br.com.yurifont.sreenmatch.UI;
 import br.com.yurifont.sreenmatch.model.SeasonData;
 import br.com.yurifont.sreenmatch.model.Serie;
 import br.com.yurifont.sreenmatch.model.SeriesData;
+import br.com.yurifont.sreenmatch.repository.SerieRepository;
 import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import br.com.yurifont.sreenmatch.service.ConvertData;
 
@@ -19,6 +20,11 @@ public class UI {
     private final ConsumeAPI consumeAPI = new ConsumeAPI();
     private final ConvertData cd = new ConvertData();
     private List<SeriesData> listSeries = new ArrayList<>();
+    private SerieRepository repository;
+
+    public UI(SerieRepository repository) {
+        this.repository = repository;
+    }
 
     public void showMenu() {
         String menu = """
@@ -58,7 +64,7 @@ public class UI {
 
     private void searchSeries() {
         SeriesData data = this.getDataSeries();
-        listSeries.add(data);
+        repository.save(new Serie(data));
         System.out.println(data);
     }
 
