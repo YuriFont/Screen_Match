@@ -89,10 +89,7 @@ public class UI {
     }
 
     private void listSearchSeries() {
-        List<Serie> series = new ArrayList<>();
-        series = listSeries.stream()
-                        .map(l -> new Serie(l))
-                        .collect(Collectors.toList());
+        List<Serie> series = repository.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenre))
                 .forEach(System.out::println);
