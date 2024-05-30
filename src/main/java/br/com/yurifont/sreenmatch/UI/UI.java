@@ -30,6 +30,7 @@ public class UI {
                 1 - Search series
                 2 - Search episodes
                 3 - List search series
+                4 - Search series by actor
                 
                 0 - Exit
                 """;
@@ -51,6 +52,10 @@ public class UI {
                 case "3":
                     listSearchSeries();
                     break ;
+
+                case "4":
+                    searchSeriesByActor();
+                    break;
 
                 case "0":
                     break ;
@@ -125,5 +130,12 @@ public class UI {
                 .sorted(Comparator.comparing(Serie::getGenre))
                 .forEach(System.out::println);
         System.out.println();
+    }
+
+    private void searchSeriesByActor() {
+        System.out.println("\nWhat is the name of the Actor or Actress you want to search for?");
+        String actorName = sc.nextLine();
+        List<Serie> seriesFound = repository.findByActorsContainingIgnoreCase(actorName);
+        seriesFound.forEach(System.out::println);
     }
 }
