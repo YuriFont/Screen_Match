@@ -11,7 +11,7 @@ import java.util.OptionalDouble;
 public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(unique = true)
     private String title;
     private Double imdbRating;
@@ -21,7 +21,7 @@ public class Serie {
     private String actors;
     private String poster;
     private String plot;
-    @Transient
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episode> episodes = new ArrayList<>();
 
     public Serie() {
@@ -101,16 +101,24 @@ public class Serie {
         this.plot = plot;
     }
 
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(List<Episode> episodes) {
+        episodes.forEach(e -> e.setSerie(this));
+        this.episodes = episodes;
+    }
+
     @Override
     public String toString() {
-        return "Serie{" +
-                "titulo='" + title + '\'' +
-                ", totalTemporadas=" + totalSeasons +
-                ", avaliacao=" + imdbRating +
-                ", genero=" + genre +
-                ", atores='" + actors + '\'' +
-                ", poster='" + poster + '\'' +
-                ", sinopse'" + plot + '\'' +
-                '}';
+        return "\nTitle - " + this.getTitle() + "\n"
+                + "Rating - " + this.getImdbRating() + "\n"
+                + "Total seasons - " + this.getTotalSeasons() + "\n"
+                + "Genre - " + this.getGenre() + "\n"
+                + "Actor - " + this.getActors() + "\n"
+                + "Poster - " + this.getPoster() + "\n"
+                + "Plot - " + this.getPlot() + "\n"
+                + "Episodes - " + this.getEpisodes() + "\n";
     }
 }
