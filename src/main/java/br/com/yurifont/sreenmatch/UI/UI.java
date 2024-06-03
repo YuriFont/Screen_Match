@@ -31,6 +31,8 @@ public class UI {
                 2 - Search episodes
                 3 - List search series
                 4 - Search series by actor
+                5 - List top 5 series
+                6 - Search series by category
                 
                 0 - Exit
                 """;
@@ -43,7 +45,7 @@ public class UI {
             switch (response) {
                 case "1":
                     searchSeries();
-                    break;
+                    break ;
 
                 case "2":
                     searchEpisodes();
@@ -55,7 +57,15 @@ public class UI {
 
                 case "4":
                     searchSeriesByActor();
-                    break;
+                    break ;
+
+                case "5":
+                    searchTop5Series();
+                    break ;
+
+                case "6":
+                    searchSeriesByCategory();
+                    break ;
 
                 case "0":
                     break ;
@@ -137,5 +147,10 @@ public class UI {
         String actorName = sc.nextLine();
         List<Serie> seriesFound = repository.findByActorsContainingIgnoreCase(actorName);
         seriesFound.forEach(System.out::println);
+    }
+
+    private void searchTop5Series() {
+        List<Serie> topSeries = repository.findTop5ByOrderByImdbRatingDesc();
+        topSeries.forEach(System.out::println);
     }
 }

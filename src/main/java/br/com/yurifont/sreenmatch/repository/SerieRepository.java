@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SerieRepository extends JpaRepository<Serie, Long> {
     List<Serie> findByActorsContainingIgnoreCase(String actorName);
+    List<Serie> findTop5ByOrderByImdbRatingDesc();
 }
