@@ -1,9 +1,6 @@
 package br.com.yurifont.sreenmatch.UI;
 
-import br.com.yurifont.sreenmatch.model.Episode;
-import br.com.yurifont.sreenmatch.model.SeasonData;
-import br.com.yurifont.sreenmatch.model.Serie;
-import br.com.yurifont.sreenmatch.model.SeriesData;
+import br.com.yurifont.sreenmatch.model.*;
 import br.com.yurifont.sreenmatch.repository.SerieRepository;
 import br.com.yurifont.sreenmatch.service.ConsumeAPI;
 import br.com.yurifont.sreenmatch.service.ConvertData;
@@ -152,5 +149,13 @@ public class UI {
     private void searchTop5Series() {
         List<Serie> topSeries = repository.findTop5ByOrderByImdbRatingDesc();
         topSeries.forEach(System.out::println);
+    }
+
+    private void searchSeriesByCategory() {
+        System.out.println("What category of series do you want search?");
+        String categoryPtBr = sc.nextLine();
+        Category category = Category.fromStringPtBr(categoryPtBr);
+        List<Serie> listSeriesByCategory = repository.findByGenre(category);
+        listSeriesByCategory.forEach(System.out::println);
     }
 }
