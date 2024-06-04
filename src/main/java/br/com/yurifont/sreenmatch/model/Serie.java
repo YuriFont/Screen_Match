@@ -15,7 +15,7 @@ public class Serie {
     @Column(unique = true)
     private String title;
     private Double imdbRating;
-    private String totalSeasons;
+    private Integer totalSeasons;
     @Enumerated(EnumType.STRING)
     private Category genre;
     private String actors;
@@ -29,7 +29,7 @@ public class Serie {
 
     public Serie(SeriesData series) {
         this.title = series.title();
-        this.totalSeasons = series.totalSeasons();
+        this.totalSeasons = Integer.parseInt(series.totalSeasons());
         this.imdbRating = OptionalDouble.of(Double.parseDouble(series.imdbRating())).orElse(0.0);
         this.genre = Category.fromString(series.genre().split(",")[0].trim());
         this.actors = series.actors();
@@ -61,11 +61,11 @@ public class Serie {
         this.imdbRating = imdbRating;
     }
 
-    public String getTotalSeasons() {
+    public Integer getTotalSeasons() {
         return totalSeasons;
     }
 
-    public void setTotalSeasons(String totalSeasons) {
+    public void setTotalSeasons(Integer totalSeasons) {
         this.totalSeasons = totalSeasons;
     }
 

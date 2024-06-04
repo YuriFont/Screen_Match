@@ -30,6 +30,7 @@ public class UI {
                 4 - Search series by actor
                 5 - List top 5 series
                 6 - Search series by category
+                7 - Filter by total seasons and rating
                 
                 0 - Exit
                 """;
@@ -62,6 +63,10 @@ public class UI {
 
                 case "6":
                     searchSeriesByCategory();
+                    break ;
+
+                case "7":
+                    filterBySeasonsAndRating();
                     break ;
 
                 case "0":
@@ -112,7 +117,7 @@ public class UI {
             List<SeasonData> dataSeason = new ArrayList<>();
             String SEASON = "&season=";
 
-            for (int i = 1; i <= Integer.parseInt(mySerie.getTotalSeasons()); i++) {
+            for (int i = 1; i <= mySerie.getTotalSeasons(); i++) {
                 String json = consumeAPI.getData(URL + mySerie.getTitle().replaceAll(" ", "_") + SEASON + i + API_KEY);
                 dataSeason.add(cd.convertData(json, SeasonData.class));
             }
@@ -157,5 +162,16 @@ public class UI {
         Category category = Category.fromStringPtBr(categoryPtBr);
         List<Serie> listSeriesByCategory = repository.findByGenre(category);
         listSeriesByCategory.forEach(System.out::println);
+    }
+
+    private void filterBySeasonsAndRating() {
+        System.out.print("Enter the maximum number of seasons the series must have:");
+        int numSeasons = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter the minimum evaluation score that the series must have:");
+        double rating = sc.nextDouble();
+        sc.nextLine();
+        List<Serie> listSeries = repository.filterBySeasonsAndRating(numSeasons, rating );
+        listSeries.forEach(System.out::println);
     }
 }
