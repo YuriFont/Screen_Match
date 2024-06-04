@@ -31,6 +31,7 @@ public class UI {
                 5 - List top 5 series
                 6 - Search series by category
                 7 - Filter by total seasons and rating
+                8 - Search episode by section
                 
                 0 - Exit
                 """;
@@ -67,6 +68,10 @@ public class UI {
 
                 case "7":
                     filterBySeasonsAndRating();
+                    break ;
+
+                case "8":
+                    searchEpisodeBySection();
                     break ;
 
                 case "0":
@@ -173,5 +178,9 @@ public class UI {
         sc.nextLine();
         List<Serie> listSeries = repository.filterBySeasonsAndRating(numSeasons, rating);
         listSeries.forEach(System.out::println);
+    }
+
+    private void searchEpisodeBySection() {
+
     }
 }
