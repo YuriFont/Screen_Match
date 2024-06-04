@@ -171,7 +171,7 @@ public class UI {
         System.out.print("Enter the minimum evaluation score that the series must have:");
         double rating = sc.nextDouble();
         sc.nextLine();
-        List<Serie> listSeries = repository.filterBySeasonsAndRating(numSeasons, rating );
+        List<Serie> listSeries = repository.filterBySeasonsAndRating(numSeasons, rating);
         listSeries.forEach(System.out::println);
     }
 }
