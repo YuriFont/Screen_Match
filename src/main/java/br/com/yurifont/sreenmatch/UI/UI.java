@@ -179,4 +179,8 @@ public class UI {
         List<Serie> listSeries = repository.filterBySeasonsAndRating(numSeasons, rating);
         listSeries.forEach(System.out::println);
     }
+
+    private void searchEpisodeBySection() {
+
+    }
 }
