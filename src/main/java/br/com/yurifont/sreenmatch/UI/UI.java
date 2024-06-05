@@ -17,6 +17,7 @@ public class UI {
     private List<SeriesData> listSeriesData = new ArrayList<>();
     private SerieRepository repository;
     private List<Serie> listSerie = new ArrayList<>();
+    private Optional<Serie> searchSerie;
 
     public UI(SerieRepository repository) {
         this.repository = repository;
@@ -24,6 +25,7 @@ public class UI {
 
     public void showMenu() {
         String menu = """
+                
                 1 - Search series
                 2 - Search episodes
                 3 - List search series
@@ -32,6 +34,7 @@ public class UI {
                 6 - Search series by category
                 7 - Filter by total seasons and rating
                 8 - Search episode by section
+                9 - Search top 5 episodes by serie
                 
                 0 - Exit
                 """;
@@ -74,6 +77,10 @@ public class UI {
                     searchEpisodeBySection();
                     break ;
 
+                case "9":
+                    searchTopEpisodesBySerie();
+                    break ;
+
                 case "0":
                     break ;
 
@@ -96,12 +103,12 @@ public class UI {
         String series = sc.nextLine();
         this.listSerie = repository.findAll();
 
-        Optional<Serie> mySerie= listSerie.stream()
+        searchSerie = listSerie.stream()
                 .filter(s -> s.getTitle().toLowerCase().contains(series.toLowerCase()))
                 .findFirst();
 
-        if (mySerie.isPresent()) {
-            System.out.println("\n" + mySerie.get()+ "\n");
+        if (searchSerie.isPresent()) {
+            System.out.println("\n" + searchSerie.get()+ "\n");
             return null;
         }
         String json = consumeAPI.getData(URL + series.replaceAll(" ", "_") + API_KEY);
@@ -181,8 +188,25 @@ public class UI {
     }
 
     private void searchEpisodeBySection() {
-        System.out.print("Enter hte name of episode for search: ");
+        System.out.print("Enter the name of episode for search: ");
         String sectionOfEpisode = sc.nextLine();
         List<Episode> episodes = repository.searchEpisodeBySection(sectionOfEpisode);
+        if (episodes.isEmpty())
+            System.out.println("No episodes found!!!");
+        else
+            episodes.forEach(e ->
+                    System.out.printf("\nSerie - %s\nSeason - %d\nTitle - %s\nNumber - %d\n\n", e.getSerie().getTitle(), e.getSeason(), e.getTitle(), e.getEpisodeNumber()));
+
+    }
+
+    private void searchTopEpisodesBySerie() {
+        searchSeries();
+        if (searchSerie.isPresent()) {
+            Serie serie = searchSerie.get();
+            List<Episode> topEpisodes = repository.searchTopEpisodesBySerie(serie);
+            System.out.println("\nTop 5 episodes of " + serie.getTitle());
+            topEpisodes.forEach(e ->
+                    System.out.printf("\nTitle - %s\nSeason - %d\nNumber - %d\nRating - %.1f\n", e.getTitle(), e.getSeason(), e.getEpisodeNumber(), e.getRating()));
+        }
     }
 }
