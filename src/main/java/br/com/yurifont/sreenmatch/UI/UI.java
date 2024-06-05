@@ -181,6 +181,8 @@ public class UI {
     }
 
     private void searchEpisodeBySection() {
-
+        System.out.print("Enter hte name of episode for search: ");
+        String sectionOfEpisode = sc.nextLine();
+        List<Episode> episodes = repository.searchEpisodeBySection(sectionOfEpisode);
     }
 }
