@@ -35,6 +35,7 @@ public class UI {
                 7 - Filter by total seasons and rating
                 8 - Search episode by section
                 9 - Search top 5 episode by serie
+                10 - Search episodes from a date
                 
                 0 - Exit
                 """;
@@ -81,6 +82,10 @@ public class UI {
                     searchTopEpisodesBySeries();
                     break ;
 
+                case "10":
+                    searchEpisodesFromDate();
+                    break ;
+
                 case "0":
                     break ;
 
@@ -93,7 +98,8 @@ public class UI {
     private void searchSeries() {
         SeriesData data = this.getDataSeries();
         if (data != null) {
-            repository.save(new Serie(data));
+            searchSerie = Optional.of(new Serie(data));
+            repository.save(searchSerie.get());
             System.out.println(data);
         }
     }
@@ -206,6 +212,18 @@ public class UI {
                     System.out.printf("\nSeason - %d\nTitle - %s\nNumber - %d\nRating - %.1f\n", e.getSeason(), e.getTitle(), e.getEpisodeNumber(), e.getRating()));
         } else {
             System.out.println("Serie not found in data base!!!");
+        }
+    }
+
+    private void searchEpisodesFromDate() {
+        searchSeries();
+        if (searchSerie.isPresent()) {
+            System.out.print("Enter the limit year release of episode: ");
+            Integer limitYear = sc.nextInt();
+            sc.nextLine();
+            List<Episode> episodes = repository.searchEpisodesFromDate(searchSerie.get(), limitYear);
+            episodes.forEach(e ->
+                    System.out.printf("\nSeason - %d\nTitle - %s\nNumber - %d\nRating - %.1f\n", e.getSeason(), e.getTitle(), e.getEpisodeNumber(), e.getRating()));
         }
     }
 }
