@@ -22,6 +22,10 @@ public class SerieService {
         return convertsData(serieRepository.findTop5ByOrderByImdbRatingDesc());
     }
 
+    public List<SerieDTO> getTop5ReleaseDates() {
+        return convertsData(serieRepository.findTop5ByOrderByEpisodesReleaseDateDesc());
+    }
+
     private List<SerieDTO> convertsData(List<Serie> series) {
         return series.stream()
                 .map(s -> new SerieDTO(s.getId(), s.getTitle(), s.getImdbRating(), s.getTotalSeasons(), s.getGenre(), s.getActors(), s.getPoster(), s.getPlot()))
