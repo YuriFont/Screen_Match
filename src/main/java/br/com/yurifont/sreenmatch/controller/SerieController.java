@@ -1,9 +1,11 @@
 package br.com.yurifont.sreenmatch.controller;
 
+import br.com.yurifont.sreenmatch.DTO.EpisodeDTO;
 import br.com.yurifont.sreenmatch.DTO.SerieDTO;
 import br.com.yurifont.sreenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +19,7 @@ public class SerieController {
 
     @GetMapping
     public List<SerieDTO> getSeries() {
-        return serieService.getAllSeries();
+        return serieService.getSeries();
     }
 
     @GetMapping("/top5")
@@ -26,7 +28,17 @@ public class SerieController {
     }
 
     @GetMapping("/lancamentos")
-    public List<SerieDTO> getTop5ReleaseDates() {
-        return serieService.getTop5ReleaseDates();
+    public List<SerieDTO> getTop5SeriesReleaseDates() {
+        return serieService.getTop5SeriesReleaseDates();
+    }
+
+    @GetMapping("/{id}")
+    public SerieDTO getById(@PathVariable Long id) {
+        return serieService.getSerieById(id);
+    }
+
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodeDTO> getSeasons(@PathVariable Long id) {
+        return serieService.getSeasons(id);
     }
 }
