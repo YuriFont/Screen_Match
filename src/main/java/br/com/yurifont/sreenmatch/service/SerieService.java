@@ -2,6 +2,7 @@ package br.com.yurifont.sreenmatch.service;
 
 import br.com.yurifont.sreenmatch.DTO.EpisodeDTO;
 import br.com.yurifont.sreenmatch.DTO.SerieDTO;
+import br.com.yurifont.sreenmatch.model.Episode;
 import br.com.yurifont.sreenmatch.model.Serie;
 import br.com.yurifont.sreenmatch.repository.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,14 @@ public class SerieService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    public List<EpisodeDTO> getSeasonByNumber(Long id, Long num) {
+        List<Episode> episodeList = serieRepository.getEpisodesBySeason(id, num);
+
+        return episodeList.stream()
+                .map(e -> new EpisodeDTO(e.getSeason(), e.getTitle(), e.getEpisodeNumber()))
+                .collect(Collectors.toList());
     }
 
     private List<SerieDTO> convertsData(List<Serie> series) {
